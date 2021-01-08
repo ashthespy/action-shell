@@ -4,6 +4,12 @@
 # Make life simpler
 cd "$GITHUB_WORKSPACE" || exit 1
 
+# Register problem formatter for annotations
+[[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && {
+	echo "Enabling inline annotations"
+	cp /shellcheck.json ./
+	echo "::add-matcher::shellcheck.json"
+}
 # Grep for shebang to account for scripts that don't have extensions
 # grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)'
 
@@ -31,15 +37,22 @@ fi
 
 if [[ ${#FILES[@]} -gt 0 ]]; then
 	echo "Checking and formatting ${#FILES[@]} files -- ${FILES[*]}"
-	echo -e "\nRunning static analysis"
+	echo "::group:: Static Analysis"
+	shellcheck --version
+	#echo -e "\nRunning static analysis"
 	# shellcheck disable=SC2086
 	shellcheck ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
 	sc_exit=$?
-
-	echo -e "\nRunning formatting check"
+	echo "::endgroup::"
+	# Remove the matcher
+	[[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && echo "::remove-matcher owner=shellcheck::"
+	echo "::group:: Format Check"
+	# echo -e "\nRunning formatting check"
 	# shellcheck disable=SC2086
+	shfmt --version
 	shfmt "${INPUT_SHFMT_FLAGS[@]}" "${FILES[@]}"
 	sh_exit=$?
+	echo "::endgroup::"
 
 	echo "shellcheck ${sc_exit}, shfmt ${sh_exit}"
 	[ $sc_exit -ne 0 ] || [ $sh_exit -ne 0 ] && exit 1

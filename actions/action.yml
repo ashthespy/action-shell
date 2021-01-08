@@ -20,11 +20,15 @@ inputs:
     required: false
   shellcheck_flags:
     description: "Flags for shellcheck."
-    default: '--color=always --external-sources'
+    default: '--color=always --external-sources -f tty'
     required: false
   shfmt_flags:
     description: "Flags for shfmt."
     default: '-l'
+    required: false
+  enable_annotations:
+    description: "Annotations using problem_matcher"
+    default: 'true'
     required: false
 runs:
   using: 'docker'
