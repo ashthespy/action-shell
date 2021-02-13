@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: ["master", "test"]
+  pull_request:
+    branches: ["test", "ci"]
+
+name: "Trigger: Push action"
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run ShellCheck
+        uses: actions/checkout@v2
+      - run: |
+            sudo apt-get install shellcheck
+            echo "::add-matcher::.github/actions/shellcheck-gcc.json"
+            shellcheck -f gcc ./.github/tests/*.sh

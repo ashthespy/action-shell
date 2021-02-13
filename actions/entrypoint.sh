@@ -8,7 +8,7 @@ cd "$GITHUB_WORKSPACE" || exit 1
 [[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && {
 	echo "Enabling inline annotations"
 	cp /shellcheck.json ./
-	echo "::add-matcher::shellcheck.json"
+	echo "::add-matcher::./shellcheck.json"
 }
 # Grep for shebang to account for scripts that don't have extensions
 # grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)'
