@@ -8,8 +8,8 @@ cd "$GITHUB_WORKSPACE" || exit 1
 [[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && {
 	echo "Enabling inline annotations"
 	# Need to copy it into a shared volume
-	cp /shellcheck-gcc.json "${HOME}/"
-	echo "::add-matcher::${HOME}/shellcheck-gcc.json"
+	cp /shellcheck.json "${HOME}/"
+	echo "::add-matcher::${HOME}/shellcheck.json"
 }
 # Grep for shebang to account for scripts that don't have extensions
 # grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)'

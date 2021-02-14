@@ -20,7 +20,6 @@ RUN apk add --no-cache bash git grep jq \
 # Default entry point that runs our tests
 COPY entrypoint.sh /entrypoint.sh
 COPY shellcheck.json /shellcheck.json
-COPY shellcheck-gcc.json /shellcheck-gcc.json
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
