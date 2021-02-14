@@ -38,7 +38,7 @@ fi
 
 if [[ ${#FILES[@]} -gt 0 ]]; then
 	echo "Checking and formatting ${#FILES[@]} files -- ${FILES[*]}"
-	echo "::group:: Static Analysis"
+	# echo "::group:: Static Analysis"
 	shellcheck --version
 	#echo -e "\nRunning static analysis"
 	# shellcheck disable=SC2086
