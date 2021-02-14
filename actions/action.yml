@@ -20,11 +20,11 @@ inputs:
     required: false
   shellcheck_flags:
     description: "Flags for shellcheck."
-    default: '--color=always --external-sources -f tty'
+    default: '--color=always --external-sources --format=tty'
     required: false
   shfmt_flags:
     description: "Flags for shfmt."
-    default: '-l'
+    default: '-d'
     required: false
   enable_annotations:
     description: "Annotations using problem_matcher"

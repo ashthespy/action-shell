@@ -41,16 +41,22 @@ if [[ ${#FILES[@]} -gt 0 ]]; then
 	echo "::group:: Static Analysis"
 	shellcheck --version
 	#echo -e "\nRunning static analysis"
-	# shellcheck disable=SC2086
-	shellcheck -f gcc ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
-	shellcheck ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
+	IFS=" " read -r -a shellcheck_flags <<<"${INPUT_SHELLCHECK_FLAGS}"
+	IFS=" " read -r -a shfmt_flags <<<"${INPUT_SHFMT_FLAGS}"
+	shellcheck -f gcc "${shellcheck_flags[@]}" "${FILES[@]}" # Can't seem to get the tty matcher working, so
+	shellcheck "${shellcheck_flags[@]}" "${FILES[@]}"
 	sc_exit=$?
 	echo "::endgroup::"
 	# Remove the matcher
-	[[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && echo "::remove-matcher owner=shellcheck::"
+	[[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && {
+		echo "::remove-matcher owner=shellcheck::"
+		echo "::remove-matcher owner=shellcheck-gcc-warning::"
+		echo "::remove-matcher owner=shellcheck-gcc-error::"
+	}
+
 	echo "::group:: Format Check"
 	shfmt --version
-	shfmt "${INPUT_SHFMT_FLAGS[@]}" "${FILES[@]}"
+	shfmt "${shfmt_flags[@]}" "${FILES[@]}"
 	sh_exit=$?
 	echo "::endgroup::"
 
