@@ -38,18 +38,17 @@ fi
 
 if [[ ${#FILES[@]} -gt 0 ]]; then
 	echo "Checking and formatting ${#FILES[@]} files -- ${FILES[*]}"
-	# echo "::group:: Static Analysis"
+	echo "::group:: Static Analysis"
 	shellcheck --version
 	#echo -e "\nRunning static analysis"
 	# shellcheck disable=SC2086
+	shellcheck -f gcc ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
 	shellcheck ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
 	sc_exit=$?
 	echo "::endgroup::"
 	# Remove the matcher
 	[[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && echo "::remove-matcher owner=shellcheck::"
 	echo "::group:: Format Check"
-	# echo -e "\nRunning formatting check"
-	# shellcheck disable=SC2086
 	shfmt --version
 	shfmt "${INPUT_SHFMT_FLAGS[@]}" "${FILES[@]}"
 	sh_exit=$?
