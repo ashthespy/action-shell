@@ -42,7 +42,7 @@ if [[ ${#FILES[@]} -gt 0 ]]; then
 	shellcheck --version
 	#echo -e "\nRunning static analysis"
 	# shellcheck disable=SC2086
-	shellcheck -f gcc ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
+	shellcheck ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
 	sc_exit=$?
 	echo "::endgroup::"
 	# Remove the matcher

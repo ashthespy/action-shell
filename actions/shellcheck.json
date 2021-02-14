@@ -2,6 +2,7 @@
   "problemMatcher": [
     {
       "owner": "shellcheck",
+      "severity":"warning",
       "pattern": [
         {
           "regexp": "^In\\s(.+)\\sline\\s(\\d+):$",
@@ -12,9 +13,9 @@
           "regexp": ".*"
         },
         {
-          "regexp": "(SC\\d+):\\s(.+)$",
-          "code": 1,
-          "message": 2
+          "regexp": "(.+(SC\\d+):\\s(.+))$",
+          "code": 2,
+          "message": 1
         }
       ]
     },
