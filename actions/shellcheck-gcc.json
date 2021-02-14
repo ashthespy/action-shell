@@ -5,21 +5,7 @@
         "severity": "warning",
         "pattern": [
           {
-            "regexp": "^(.+):(\\d+):(\\d+):\\s(warning):\\s(.*)\\s\\[(SC\\d+)\\]$",
-            "file": 1,
-            "line": 2,
-            "column": 3,
-            "message": 5,
-            "code": 6
-          }
-        ]
-      },
-      {
-        "owner": "shellcheck-info",
-        "severity": "info",
-        "pattern": [
-          {
-            "regexp": "^(.+):(\\d+):(\\d+):\\s(note):\\s(.*)\\s\\[(SC\\d+)\\]$",
+            "regexp": "^(.+):(\\d+):(\\d+):\\s(note|warning):\\s(.*)\\s\\[(SC\\d+)\\]$",
             "file": 1,
             "line": 2,
             "column": 3,

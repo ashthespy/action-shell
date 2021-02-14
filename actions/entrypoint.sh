@@ -7,8 +7,9 @@ cd "$GITHUB_WORKSPACE" || exit 1
 # Register problem formatter for annotations
 [[ ${INPUT_ENABLE_ANNOTATIONS} == true ]] && {
 	echo "Enabling inline annotations"
-	cp /shellcheck.json ./
-	echo "::add-matcher::./shellcheck.json"
+	# Need to copy it into a shared volume
+	cp /shellcheck-gcc.json "${HOME}/"
+	echo "::add-matcher::${HOME}/shellcheck-gcc.json"
 }
 # Grep for shebang to account for scripts that don't have extensions
 # grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)'
@@ -41,7 +42,7 @@ if [[ ${#FILES[@]} -gt 0 ]]; then
 	shellcheck --version
 	#echo -e "\nRunning static analysis"
 	# shellcheck disable=SC2086
-	shellcheck ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
+	shellcheck -f gcc ${INPUT_SHELLCHECK_FLAGS} "${FILES[@]}"
 	sc_exit=$?
 	echo "::endgroup::"
 	# Remove the matcher
